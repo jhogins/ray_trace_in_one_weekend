@@ -19,22 +19,22 @@ public:
             :x(0), y(0), z(0)
     {}
 
-    vec3 operator+(const vec3& other)
+    vec3 operator+(const vec3& other) const
     {
         vec3 res(x + other.x, y + other.y, z + other.z);
         return res;
     }
-    vec3 operator-(const vec3& other)
+    vec3 operator-(const vec3& other) const
     {
         vec3 res(x - other.x, y - other.y, z - other.z);
         return res;
     }
-    vec3 operator*(const vec3& other)
+    vec3 operator*(const vec3& other) const
     {
         vec3 res(x * other.x, y * other.y, z * other.z);
         return res;
     }
-    vec3 operator/(const vec3& other)
+    vec3 operator/(const vec3& other) const
     {
         vec3 res(x / other.x, y / other.y, z / other.z);
         return res;
@@ -72,23 +72,23 @@ public:
         return *this;
     }
 
-    float length()
+    float length() const
     {
         return sqrt(length_squared());
     }
 
-    float length_squared()
+    float length_squared() const
     {
         return x * x + y * y + z * z;
     }
 
-    float dot(const vec3& other)
+    float dot(const vec3& other) const
     {
         return x * other.x +
                y * other.y +
                z * other.z;
     }
-    float cross(const vec3& other)
+    float cross(const vec3& other) const
     {
         return x * other.x +
                y * other.y +
@@ -96,28 +96,44 @@ public:
     }
 
 
-    std::ostream& operator<<(std::ostream& out) {
+    std::ostream& operator<<(std::ostream& out) const {
         return out << x << ' ' << y << ' ' << z;
     }
 
-    vec3 operator*(float other)
+    vec3 operator*(float other) const
     {
         return vec3(x * other, y * other, z * other);
     }
 
-    vec3 operator/(float other)
+    vec3 operator/(float other) const
     {
         return *this * (1 / other);
     }
 
-    vec3 cross(vec3& other)
+    vec3 cross(vec3& other) const
     {
         return vec3(y * other.z - z * other.y,
             z * other.x - x * other.z,
             x * other.y - y * other.x);
     }
+
+    vec3 unit_vector() const {
+        return *this / length();
+    }
+
+    vec3 operator-() const
+    {
+        return {-x, -y, -z};
+    }
 };
 
 using point3 = vec3;
 using color = vec3;
+
+
+inline vec3 operator*(float lhs, const vec3& rhs)
+{
+    return rhs * lhs;
+}
+
 #endif //PATH_TRACER_VEC3_H
