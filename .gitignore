@@ -2,3 +2,4 @@
 /app/*.user
 /app/x64
 /app/image.ppm
+.idea
