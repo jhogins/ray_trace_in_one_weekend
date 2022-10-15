@@ -1,2 +1,4 @@
 /app/.vs
 /app/*.user
+/app/x64
+/app/image.ppm

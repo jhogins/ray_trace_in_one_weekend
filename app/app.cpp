@@ -2,10 +2,45 @@
 //
 
 #include <iostream>
+#include <fstream>
+using namespace std;
 
-int main()
+const int width = 1080;
+const int height = 768;
+
+
+struct vec3
 {
-    std::cout << "Hello World!\n";
+public:
+	unsigned char x;
+	unsigned char y;
+	unsigned char z;
+} color;
+
+
+
+int main(int argc, char* argv[])
+{
+
+	cerr << "Creating image with width " << width << " and height " << height << endl;
+
+
+	ofstream outfile;
+	outfile.open(argv[1]);
+
+	outfile << "P3\n" << width << ' ' << height << "\n255\n";
+	for (size_t y = 0; y < height; y++)
+	{
+		for (size_t x = 0; x < width; x++)
+		{
+			auto r = (double)x / width;
+			auto g = (double)y / height;
+			auto b = .25;
+
+			outfile << (int)(r * 255.99) << " " << (int)(g * 255.99) << " " << (int)(b * 255.99) << "\n";
+		}
+	}
+	outfile.close();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
