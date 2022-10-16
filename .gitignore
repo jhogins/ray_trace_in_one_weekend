@@ -3,3 +3,6 @@
 /app/x64
 /app/image.ppm
 .idea
+net6.0-windows
+/Viewer/*.user
+*.nuget*
