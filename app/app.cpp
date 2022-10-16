@@ -5,6 +5,7 @@
 #include <fstream>
 #include "vec3.h"
 #include "Color.h"
+#include "ObjectMath.h"
 #include "ray.h"
 using namespace std;
 
@@ -14,7 +15,7 @@ const int height = static_cast<int>(width / aspect_ratio);
 
 const float fov = 90;
 const float viewport_width = 2.0;
-const float viewport_height = static_cast<int>(viewport_width / aspect_ratio);
+const float viewport_height = viewport_width / aspect_ratio;
 const float focal_length = 1.0;
 
 vec3 origin = vec3();
@@ -45,6 +46,10 @@ extern "C" {
 		//return color(0.0f, 0.0f, 1.0f);
 		point3 pt = ray.at(focal_length);
 		color col(/*(pt.x + viewport_width / 2) / viewport_width*/0, 0, (pt.y + viewport_height / 2) / viewport_height);
+
+		if (hit_sphere(point3(0, 0, -5.0f), 2.0f, ray))
+			col = color(1.0f, 0.f, 0.f);
+
 		return col;
 	}
 	__declspec(dllexport)  int _cdecl get_width() { return width; }
