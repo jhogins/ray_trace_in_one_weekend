@@ -8,7 +8,7 @@
 #include "ray.h"
 using namespace std;
 
-const int width = 1080;
+const int width = 1920;
 const float aspect_ratio = 16.0f / 9.0f;
 const int height = static_cast<int>(width / aspect_ratio);
 
@@ -44,7 +44,7 @@ extern "C" {
 	{
 		//return color(0.0f, 0.0f, 1.0f);
 		point3 pt = ray.at(focal_length);
-		color col((pt.x + viewport_width / 2) / viewport_width, (pt.y + viewport_height / 2) / viewport_height, 0);
+		color col(/*(pt.x + viewport_width / 2) / viewport_width*/0, 0, (pt.y + viewport_height / 2) / viewport_height);
 		return col;
 	}
 	__declspec(dllexport)  int _cdecl get_width() { return width; }
