@@ -6,3 +6,5 @@
 net6.0-windows
 /Viewer/*.user
 *.nuget*
+/app/packages/Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.1.6
+/tests/x64/Debug

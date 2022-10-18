@@ -133,6 +133,7 @@
     <ClCompile Include="app.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="app.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="ObjectMath.h" />
     <ClInclude Include="ray.h" />

@@ -39,19 +39,20 @@ void write_ppm(unsigned char* frame)
 
 	outfile.close();
 }
+color ray_color(const ray& ray)
+{
+	//return color(0.0f, 0.0f, 1.0f);
+	point3 pt = ray.at(focal_length);
+	color col(/*(pt.x + viewport_width / 2) / viewport_width*/0, 0, (pt.y + viewport_height / 2) / viewport_height);
+
+	vec3 normal;
+	if (hit_sphere_normal(ray, point3(0, 0, -5.0f), 2.0f, normal))
+		col = 0.5 * color(normal.x + 1, normal.y + 1, normal.z + 1);
+
+	return col;
+}
 
 extern "C" {
-	color ray_color(const ray& ray)
-	{
-		//return color(0.0f, 0.0f, 1.0f);
-		point3 pt = ray.at(focal_length);
-		color col(/*(pt.x + viewport_width / 2) / viewport_width*/0, 0, (pt.y + viewport_height / 2) / viewport_height);
-
-		if (hit_sphere(point3(0, 0, -5.0f), 2.0f, ray))
-			col = color(1.0f, 0.f, 0.f);
-
-		return col;
-	}
 	__declspec(dllexport)  int _cdecl get_width() { return width; }
 	__declspec(dllexport)  int _cdecl get_height() { return height; }
 	__declspec(dllexport)  void _cdecl render(unsigned char* frame)
