@@ -22,7 +22,7 @@ bool hit_sphere_normal(const ray& ray, float t_min, float t_max, const point3& s
 	if (sph_hit_dist >= t_min && sph_hit_dist <= t_max)
 	{
 		auto sph_hit = ray.at(sph_hit_dist);
-		hit_record.normal = (sph_hit - sphere_center).unit_vector();
+		hit_record.set_face_normal(ray, (sph_hit - sphere_center) / radius);
 		hit_record.p = sph_hit;
 		hit_record.t = sph_hit_dist;
 		return true;

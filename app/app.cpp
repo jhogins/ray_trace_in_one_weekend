@@ -17,8 +17,8 @@ const float aspect_ratio = 16.0f / 9.0f;
 const int height = static_cast<int>(width / aspect_ratio);
 
 const float fov = 90;
-const float viewport_width = 2.0;
-const float viewport_height = viewport_width / aspect_ratio;
+const float viewport_height = 2.0;
+const float viewport_width = viewport_height * aspect_ratio;
 const float focal_length = 1.0;
 
 vec3 origin = vec3();
@@ -70,9 +70,11 @@ extern "C" {
 	__declspec(dllexport)  void _cdecl render(unsigned char* frame)
 	{
 		hittables.clear();
-		hittables.push_back(std::make_shared<sphere>(point3(0, 0, -5.0f), 2.0f));
+		hittables.push_back(std::make_shared<sphere>(point3(0, 0, -1.0f), .5f));
 		hittables.push_back(std::make_shared<sphere>(point3(2, 1, -5.0f), 1.0f));
-		hittables.push_back(std::make_shared<sphere>(point3(2, -1, -6.0f), 1.0f));
+		hittables.push_back(std::make_shared<sphere>(point3(2, -1, -3.0f), 1.0f));
+		hittables.push_back(std::make_shared<sphere>(point3(0, -100.5, -1), 100));
+		
 
 		size_t idx = 0;
 		for (size_t y = 0; y < height; y++)
@@ -83,7 +85,7 @@ extern "C" {
 			for (size_t x = 0; x < width; x++)
 			{
 				float u = (x + .5f) / width;
-				float v = (y + .5f) / height;
+				float v = (height - y - .5f) / height;
 				ray r(origin, (lower_left_direction + horizontal * u + vertical * v).unit_vector());
 				color col = ray_color(r);
 				frame[idx * 4] = static_cast<unsigned char>(col.x * 255.99);
