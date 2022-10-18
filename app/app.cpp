@@ -3,10 +3,13 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
+
 #include "vec3.h"
 #include "Color.h"
 #include "ObjectMath.h"
 #include "ray.h"
+#include "sphere.h"
 using namespace std;
 
 const int width = 1920;
@@ -22,6 +25,8 @@ vec3 origin = vec3();
 auto horizontal = vec3(viewport_width, 0, 0);
 auto vertical = vec3(0, viewport_height, 0);
 auto lower_left_direction = -horizontal / 2 - vertical / 2 - vec3(0, 0, focal_length);
+
+vector<shared_ptr<hittable>> hittables;
 
 void write_ppm(unsigned char* frame)
 {
@@ -45,9 +50,16 @@ color ray_color(const ray& ray)
 	point3 pt = ray.at(focal_length);
 	color col(/*(pt.x + viewport_width / 2) / viewport_width*/0, 0, (pt.y + viewport_height / 2) / viewport_height);
 
-	vec3 normal;
-	if (hit_sphere_normal(ray, point3(0, 0, -5.0f), 2.0f, normal))
-		col = 0.5 * color(normal.x + 1, normal.y + 1, normal.z + 1);
+	float distance = numeric_limits<float>::infinity();
+	hit_record rec;
+	for (auto hittable : hittables)
+	{
+		if (hittable->hit(ray, 0.0f, 1000.0f, rec) && rec.t < distance)
+		{
+			distance = rec.t;
+			col = 0.5 * color(rec.normal.x + 1, rec.normal.y + 1, rec.normal.z + 1);
+		}
+	}
 
 	return col;
 }
@@ -57,6 +69,11 @@ extern "C" {
 	__declspec(dllexport)  int _cdecl get_height() { return height; }
 	__declspec(dllexport)  void _cdecl render(unsigned char* frame)
 	{
+		hittables.clear();
+		hittables.push_back(std::make_shared<sphere>(point3(0, 0, -5.0f), 2.0f));
+		hittables.push_back(std::make_shared<sphere>(point3(2, 1, -5.0f), 1.0f));
+		hittables.push_back(std::make_shared<sphere>(point3(2, -1, -6.0f), 1.0f));
+
 		size_t idx = 0;
 		for (size_t y = 0; y < height; y++)
 		{

@@ -1,4 +1,5 @@
 #pragma once
+#include "hittable.h"
 #include "ray.h"
 
 //todo: optimize here per section 6.2
@@ -15,13 +16,15 @@ float hit_sphere(const point3& center, float radius, const ray& r) {
 }
 
 
-bool hit_sphere_normal(const ray& ray, const point3& sphere_center, const float radius, vec3& normal)
+bool hit_sphere_normal(const ray& ray, float t_min, float t_max, const point3& sphere_center, const float radius, hit_record& hit_record)
 {
 	auto sph_hit_dist = hit_sphere(sphere_center, radius, ray);
-	if (sph_hit_dist >= 0)
+	if (sph_hit_dist >= t_min && sph_hit_dist <= t_max)
 	{
 		auto sph_hit = ray.at(sph_hit_dist);
-		normal = (sph_hit - sphere_center).unit_vector();
+		hit_record.normal = (sph_hit - sphere_center).unit_vector();
+		hit_record.p = sph_hit;
+		hit_record.t = sph_hit_dist;
 		return true;
 	}
 	return false;
