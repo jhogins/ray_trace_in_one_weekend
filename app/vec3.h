@@ -4,6 +4,7 @@
 
 #ifndef PATH_TRACER_VEC3_H
 #define PATH_TRACER_VEC3_H
+#include "common.h"
 
 class vec3
 {
@@ -124,6 +125,14 @@ public:
     vec3 operator-() const
     {
         return {-x, -y, -z};
+    }
+
+    static vec3 random() {
+        return vec3(random_float(), random_float(), random_float());
+    }
+
+    static vec3 random(float min, float max) {
+        return vec3(random_float(min, max), random_float(min, max), random_float(min, max));
     }
 };
 
